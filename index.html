@@ -21,26 +21,46 @@
 <body>
 <main>
   <h1>Polityka prywatności aplikacji „Celownik”</h1>
-  <p class="date">Data aktualizacji: <time datetime="2026-09-16">16 września 2026 r.</time></p>
+  <p class="date">Data aktualizacji: <time datetime="2026-09-23">23 września 2026 r.</time></p>
 
   <h2>1. Kto odpowiada za dane i jak się skontaktować</h2>
-  <p>Za przetwarzanie danych otrzymanych w związku z korespondencją i dobrowolnym wsparciem
+  <p>Za przetwarzanie danych otrzymanych w związku z dobrowolnym feedbackiem, korespondencją i wsparciem
     odpowiada Michał Draba, twórca aplikacji Celownik. Kontakt w sprawach prywatności:
     <a href="mailto:michal.draba@gmail.com">michal.draba@gmail.com</a>.</p>
   <p>Celownik to dziennik treningów strzeleckich. Nie wymaga konta. Zdjęcia tarcz, wyniki
-    i ustawienia zapisuje lokalnie na urządzeniu. Nie prowadzi serwerowej bazy treningów
-    ani synchronizacji z kontem twórcy. Operatorzy usług opisanych poniżej odpowiadają
+    i ustawienia zapisuje lokalnie na urządzeniu. Nie synchronizuje automatycznie historii. Po osobnej zgodzie na wybrany trening może przesłać jego zdjęcia i oznaczenia do laboratorium twórcy. Operatorzy usług opisanych poniżej odpowiadają
     za przetwarzanie danych w swoich usługach zgodnie z własnymi zasadami.</p>
 
   <h2>2. Dane na urządzeniu</h2>
   <p>Aplikacja zapisuje lokalnie m.in. treningi, tarcze, wybrane zdjęcia, wpisy o broni
     i amunicji, wyniki analizy oraz ustawienia, w tym adres katalogu modelu rozpoznawania.
     Dane pochodzą z wpisów użytkownika i z plików, które sam wybierze albo zrobi aparatem.
-    Rozpoznawanie otworów na tarczy odbywa się na urządzeniu. Celownik nie wysyła zdjęć
-    tarcz na serwer twórcy.</p>
+    Rozpoznawanie otworów na tarczy odbywa się na urządzeniu. Wysyłka zdjęć do laboratorium jest dobrowolna i wymaga osobnej zgody.</p>
   <p>Aplikacja wyłącza systemową kopię zapasową Androida dla swoich danych. Odinstalowanie
     usuwa lokalną bazę i zapisane zdjęcia treningów w katalogu aplikacji. Pliki, które
     pozostawiłeś we własnej galerii, zostają u Ciebie.</p>
+
+  <p>Zdjęcia zakończonych treningów są domyślnie usuwane z katalogu aplikacji po 90 dniach,
+    przy jej uruchomieniu. W ustawieniach można wybrać 30, 90, 180, 365 dni albo brak limitu.
+    Wyniki, opisy i oznaczenia pozostają. Aktywne treningi i zdjęcia oczekujące na wysyłkę są chronione.</p>
+
+  <h2>Dobrowolne przekazanie materiału do uczenia modelu</h2>
+  <p>Po połączeniu laboratorium kodem i zgodzie na konkretny trening aplikacja przesyła przez HTTPS
+    zachowane zdjęcia tarcz, oznaczenia przed i po korekcie, komentarz, kolejność serii, geometrię,
+    wersję modelu oraz dostępne dane o typie tarczy, kalibrze, amunicji i dystansie. Pakiet zawiera
+    identyfikator zbioru instalacji, treningu i zgłoszenia, umożliwiające powiązanie serii i obsługę ponowień.
+    Domyślne laboratorium twórcy działa pod https://dramich.duckdns.org; ekran zgody pokazuje rzeczywistego odbiorcę.</p>
+  <p>Celem jest ocena i poprawianie rozpoznawania. Odbiór nie publikuje zdjęć ani nie zatwierdza ich
+    automatycznie do treningu. Nie wysyłamy profilu osoby ani nazw broni. Zdjęcia kodujemy bez EXIF/GPS,
+    ale napisy i osoby widoczne na fotografii pozostają. Przed udostępnieniem sprawdź jej treść.</p>
+  <p>Bez internetu materiał czeka na ręczne ponowienie. Można anulować oczekującą wysyłkę;
+    anulowanie nie usuwa kopii już odebranej. Serwer i proxy otrzymują także adres IP i informacje techniczne
+    połączenia. Usługa nie sprzedaje zdjęć i nie przekazuje ich do reklam.</p>
+  <p>Materiały w laboratorium nie podlegają 90-dniowemu usuwaniu zdjęć z telefonu. Są zachowywane
+    na potrzeby przeglądu, oceny i treningu do usunięcia przez administratora lub realizacji żądania użytkownika.
+    Zgodę można wycofać i zażądać usunięcia przesłanych materiałów, pisząc na
+    <a href="mailto:michal.draba@gmail.com">michal.draba@gmail.com</a> z identyfikatorem zgłoszenia
+    widocznym w aplikacji. Usunięcie materiału nie cofa automatycznie wcześniej wytrenowanych wag modelu.</p>
 
   <h2>3. Model rozpoznawania z internetu</h2>
   <p>Przy starcie Celownik może pobrać aktualny zaakceptowany pakiet modelu przez HTTPS
@@ -49,8 +69,8 @@
     o ile nie wyłączysz tej aktualizacji w ustawieniach. Żądanie zawiera adres katalogu
     i pakietu modelu. Nie zawiera zdjęć tarcz, dziennika treningów ani danych broni.</p>
   <p>GitHub, jako operator połączenia, może otrzymywać adres IP, czas żądania i standardowe
-    dane techniczne przeglądarki/klienta HTTP, w tym identyfikator
-    <code>Celownik/1.9.8</code>. Zasady GitHub:
+    dane techniczne przeglądarki/klienta HTTP, w tym identyfikator klienta postaci
+    <code>Celownik/&lt;wersja&gt;</code>. Zasady GitHub:
     <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub General Privacy Statement</a>.</p>
   <p>Wagi modelu pochodzą z YOLOv8n (Ultralytics) i są udostępniane na licencji AGPL-3.0.
     Analiza jest pomocnicza i eksperymentalna — przed zapisem wyniku sprawdź trafienia.</p>
@@ -58,7 +78,7 @@
   <h2>4. Uprawnienia</h2>
   <p>Aparat służy wyłącznie do zdjęcia tarczy podczas treningu. Wybór z galerii pozwala
     przekazać wybrane zdjęcie. Internet jest potrzebny do opcjonalnego pobrania modelu
-    oraz do otwarcia stron wsparcia i tej polityki. Celownik nie wymaga mikrofonu,
+    oraz do dobrowolnej wysyłki feedbacku i otwarcia stron wsparcia i tej polityki. Celownik nie wymaga mikrofonu,
     lokalizacji, kontaktów, SMS-ów ani nakładki na inne aplikacje.</p>
 
   <h2>5. Dobrowolne wsparcie</h2>
