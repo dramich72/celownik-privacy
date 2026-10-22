@@ -69,10 +69,15 @@
     je udostępni. Apple może udostępnić ukryty adres e-mail. Nie prosimy o dostęp do poczty, kontaktów ani Dysku Google.</p>
   <p>Samo połączenie lokalnego profilu nie wysyła zdjęć ani historii. Przy zakupie, przywracaniu dostępu,
     aktywacji kodu lub korzystaniu ze społeczności aplikacja przesyła do serwera CEL-ownika krótkotrwały
-    token Google w celu sprawdzenia tożsamości. Serwer zachowuje identyfikator konta Google i nadaje
-    wewnętrzny identyfikator konta oraz sesję. Nie zapisuje hasła ani krótkotrwałego tokenu Google.
-    Nazwa i e-mail konta Google pozostają na urządzeniu. Natywny SDK dostawcy może zachowywać
-    poświadczenia na urządzeniu. Połączenie nie tworzy kopii zapasowej lokalnych treningów. Nie jest blokadą dostępu do aplikacji ani podziałem historii
+    token tożsamości Google lub Apple w celu sprawdzenia tożsamości. Serwer zachowuje identyfikator
+    danego dostawcy i nadaje wewnętrzny identyfikator konta oraz sesję. Nie zapisuje hasła ani
+    krótkotrwałego tokenu tożsamości. Nazwa i e-mail otrzymane przez aplikację pozostają na urządzeniu;
+    nie są zapisywane w bazie kont CEL-ownika. Konta Google i Apple są odrębne i nie są automatycznie
+    łączone na podstawie adresu e-mail. Natywny SDK dostawcy może zachowywać poświadczenia na urządzeniu.
+    Dostawca logowania przetwarza także dane zgodnie ze swoją polityką. Manifest SDK Google Sign-In
+    deklaruje imię i nazwisko, e-mail, numer telefonu, przybliżoną lokalizację, identyfikatory konta
+    i urządzenia oraz dane użycia i inne dane techniczne do uwierzytelniania i analityki dostawcy.
+    Nie oznacza to dostępu aplikacji do książki telefonicznej ani zgody na GPS. Połączenie nie tworzy kopii zapasowej lokalnych treningów. Nie jest blokadą dostępu do aplikacji ani podziałem historii
     na oddzielnych użytkowników.</p>
   <p>W Profilu można wybrać „Usuń powiązanie konta”, aby usunąć lokalne dane powiązania i wylogować lokalną
     sesję SDK Google. Historia pozostaje na urządzeniu. Uprawnienie aplikacji można dodatkowo cofnąć
@@ -82,7 +87,7 @@
 
   <h2 id="progress-sync">Dobrowolna synchronizacja postępów</h2>
   <p>Po włączeniu w Profilu, z aktywną subskrypcją lub kodem pełnego dostępu, synchronizujemy
-    prywatne podsumowania zatwierdzonych wyników przypisane do konta Google: daty, konkurencję,
+    prywatne podsumowania zatwierdzonych wyników przypisane do konta CEL-ownika powiązanego z Google lub Apple: daty, konkurencję,
     dystans, nazwę i kaliber broni oraz amunicji, scenariusz wyzwania, liczbę trafień, punkty
     i liczbowe miary skupienia. Na tej podstawie urządzenia wyliczają rangę, medale i postępy.
     Nie wysyłamy zdjęć tarcz, oznaczeń przestrzelin, ich współrzędnych ani prywatnych notatek.
@@ -101,7 +106,7 @@
   <p>Społeczność jest opcjonalna. Po utworzeniu profilu serwer zapisuje wybrany pseudonim, awatar,
     ustawienia widoczności i zaproszeń, znajomości, blokady, zgłoszenia nadużyć oraz czas ostatniej
     aktywności. Profil publiczny i przyjmowanie zaproszeń są domyślnie włączone; możesz je wyłączyć.
-    Status aktywności służy znajomym do umawiania pojedynków. Nie publikujemy adresu e-mail Google.</p>
+    Status aktywności służy znajomym do umawiania pojedynków. Nie publikujemy adresu e-mail dostawcy logowania.</p>
   <p>Do pojedynku wysyłasz warunki i zatwierdzony wynik punktowy. Serwer przechowuje datę, uczestników,
     wynik, ranking i zdobyte nagrody. Fotografie tarcz i cała historia z telefonu nie są wysyłane przez
     moduł pojedynków. Udostępnienie publicznego awatara oznacza przesłanie wybranego zdjęcia na serwer.
@@ -115,26 +120,48 @@
     Jedno strzelanie oznacza serię strzałów, nie jeden strzał. CEL-ownik Plus odblokowuje wiele strzelań
     na jednej tarczy, paczki wielu tarcz, rozszerzone wyzwania, Znajomych i Rywalizację.
     Moduł Treningi jest w przygotowaniu i nie stanowi obecnej oferty.</p>
-  <p>Subskrypcję kupujesz wyłącznie w Google Play: miesięczną lub roczną. Dla Polski skonfigurowano
-    9,99 zł co miesiąc albo 83,99 zł za cały rok. Wiążąca cena, okres i warunki są widoczne w oknie
-    Google Play przed potwierdzeniem. Brak okresu próbnego. Subskrypcja odnawia się automatycznie
-    na kolejny okres, chyba że wyłączysz odnawianie w Google Play. Odinstalowanie aplikacji, wylogowanie,
-    usunięcie profilu ani użycie kodu nie anulują subskrypcji. Anulowanie odnawiania zachowuje dostęp
-    do końca opłaconego okresu, z uwzględnieniem zwrotów i cofnięć Google Play.</p>
-  <p><a href="https://play.google.com/store/account/subscriptions?sku=celownik_plus&amp;package=pl.dramich.celownik">Zarządzaj subskrypcją / anuluj</a>.
-    Reklamacje dotyczące działania usługi kieruj do Michała Draby na podany wyżej e-mail; opisz błąd,
-    wersję aplikacji i oczekiwane rozwiązanie. Odpowiedź otrzymasz w ciągu 14 dni. Zwrot płatności
-    można zgłosić również w Google Play. Prawa konsumenta, w tym ustawowe uprawnienia z tytułu
-    niezgodności usługi i odstąpienia od umowy, nie są wyłączone tym opisem.
-    <a href="https://support.google.com/googleplay/answer/2479637?hl=pl">Zasady zwrotów Google Play</a>.</p>
+  <h3>Zakup i odnawianie subskrypcji</h3>
+  <p>Na Androidzie zakup odbywa się przez Google Play, a w wersji iOS z udostępnionymi zakupami
+    przez Apple App Store (In-App Purchase). Dostępne warianty to miesiąc albo rok.
+    Wiążąca cena w lokalnej walucie, okres rozliczeniowy i ewentualne warunki oferty są pokazane
+    w systemowym oknie właściwego sklepu przed potwierdzeniem. Ceny i dostępność mogą różnić się
+    między sklepami i krajami; ta polityka nie oznacza uruchomienia sprzedaży Apple przed wydaniem aplikacji.</p>
+  <p>Subskrypcja odnawia się automatycznie na kolejny okres zgodnie z warunkami pokazywanymi przez
+    sklep, dopóki nie wyłączysz odnawiania. Płatność pobiera właściwy sklep z metody przypisanej do
+    Twojego konta sklepowego. Zarządzaj nią w sklepie, w którym dokonano zakupu.
+    Odinstalowanie aplikacji, wylogowanie, usunięcie konta ani użycie kodu pełnego dostępu nie anulują
+    subskrypcji. Po wyłączeniu odnawiania dostęp zasadniczo trwa do końca opłaconego okresu,
+    z uwzględnieniem zwrotów i cofnięcia transakcji przez sklep.</p>
+  <ul>
+    <li>Google Play: <a href="https://play.google.com/store/account/subscriptions?sku=celownik_plus&amp;package=pl.dramich.celownik">zarządzanie subskrypcją i anulowanie</a>.</li>
+    <li>Apple: w aplikacji opcja zarządzania subskrypcją lub iPhone → Ustawienia → Twoje imię → Subskrypcje → CEL-ownik.
+      <a href="https://support.apple.com/pl-pl/118428">Instrukcja anulowania Apple</a>.</li>
+  </ul>
+  <h3>Przywracanie zakupów i zwroty</h3>
+  <p>Opcja „Przywróć zakupy” w aplikacji sprawdza dostępne zakupy w danym sklepie i ich ważność
+    na serwerze. Użyj konta sklepowego, na którym dokonano zakupu, oraz konta CEL-ownika,
+    z którym zakup został powiązany. Przywrócenie nie tworzy nowej płatności. Konta sklepu i konta
+    logowania do CEL-ownika nie są tym samym. Jednorazowe napiwki Apple są produktami zużywalnymi;
+    nie odnawiają się i nie są przywracane jako dostęp Plus.</p>
+  <p>Reklamacje dotyczące działania usługi kieruj do Michała Draby na podany wyżej e-mail;
+    opisz błąd, wersję aplikacji i oczekiwane rozwiązanie. Odpowiedź otrzymasz w ciągu 14 dni.
+    O zwrot płatności Apple wystąp na <a href="https://reportaproblem.apple.com/">reportaproblem.apple.com</a>;
+    <a href="https://support.apple.com/pl-pl/118223">instrukcja i zasady Apple</a> opisują dostępność zwrotu.
+    Dla Google Play obowiązuje <a href="https://support.google.com/googleplay/answer/2479637?hl=pl">procedura Google Play</a>.
+    Przyznanie zwrotu zależy od właściwych zasad i przepisów; samo anulowanie odnawiania nie jest
+    wnioskiem o zwrot. Ustawowe prawa konsumenta, w tym dotyczące niezgodności usługi i odstąpienia,
+    nie są wyłączone tym opisem. Dla aplikacji pobranej z App Store zastosowanie ma także
+    <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">standardowa umowa licencyjna Apple (EULA)</a>.</p>
   <p>Kod od twórcy jest bezpłatny, jednorazowy i przypisuje pełny dostęp do konta wybranego przy aktywacji.
     Może mieć określony czas trwania albo być bezterminowy. Termin ważności na wpisanie kodu jest
     odrębny od czasu dostępu, który zaczyna się przy pierwszej aktywacji. Kod nie tworzy subskrypcji,
     płatności ani automatycznego odnawiania. W aplikacji ma status „Pełny dostęp”. Ponowienie tego
     samego kodu na tym samym koncie nie przedłuża okresu. Nie jest możliwe przeniesienie użytego kodu
     na inne konto. Dobrowolne wsparcie rozwoju nie jest zakupem kodu ani subskrypcji.</p>
-  <p>Google przetwarza płatność. Serwer CEL-ownika zachowuje token zakupu, identyfikator produktu,
-    plan, okres, stan odnawiania i potwierdzenia oraz identyfikator konta w celu kontroli uprawnień,
+  <p>Płatność przetwarza Google lub Apple, zależnie od sklepu. Serwer CEL-ownika zachowuje
+    dla Google token zakupu, a dla Apple identyfikator transakcji i pierwotnej transakcji,
+    identyfikator produktu, środowisko testowe lub produkcyjne, plan, okres, stan odnawiania
+    i weryfikacji oraz wewnętrzny identyfikator konta w celu kontroli uprawnień,
     przywracania dostępu i zapobiegania nadużyciom. Nie otrzymuje numeru karty ani danych rachunku.
     Kody są przechowywane w postaci skrótów. Przetwarzanie identyfikatora i zakupu jest niezbędne
     do wykonania usługi (art. 6 ust. 1 lit. b RODO); zabezpieczenia i obsługa nadużyć opierają się
@@ -153,15 +180,20 @@
   <p>Usuwamy profil, awatar, prywatne podsumowania postępów, relacje, zaproszenia, udział w pojedynkach i rankingu, sesje oraz powiązanie
     uprawnień. Kopie zapasowe zostaną wycofane najpóźniej po 90 dniach. Niezbędne dowody transakcji
     i korespondencja mogą zostać zachowane przez okres wymagany prawem podatkowym lub do ochrony
-    roszczeń; poinformujemy o konkretnym zakresie. Usunięcie konta nie anuluje płatności w Google Play
+    roszczeń; poinformujemy o konkretnym zakresie. Usunięcie konta nie anuluje subskrypcji Google Play ani App Store
     i może uniemożliwić automatyczne przywrócenie wcześniejszego powiązania zakupu; przed usunięciem
     skorzystaj z opcji anulowania i skontaktuj się z pomocą, jeśli potrzebujesz przenieść dostęp.</p>
   <p>W aplikacji: Ustawienia → „Usuń konto i dane online” prowadzi do tego żądania. W profilu społeczności
     jest też opcja bezpośredniego usunięcia konta. Dane wyłącznie na telefonie nie są usuwane przez
     serwer — możesz usunąć je z aplikacji lub systemu. Samo „Usuń powiązanie konta” wylogowuje lokalnie,
     ale nie jest żądaniem usunięcia danych serwera.</p>
+  <p>Na iOS opcja „Usuń konto Apple w CEL-owniku” w ekranie subskrypcji pozwala po świeżym
+    potwierdzeniu tożsamości Apple cofnąć autoryzację i usunąć powiązane konto z serwera.
+    Kod autoryzacyjny służy jednorazowej wymianie i cofnięciu poświadczenia Apple; uzyskany token
+    odświeżania nie jest zachowywany. Ta operacja nie usuwa konta Apple i nie anuluje subskrypcji App Store.
+    Usunięcie konta CEL-ownika jest dostępne także bez aktywnego Plus.</p>
   <p>Serwer CEL-ownika działa na infrastrukturze administratora w Polsce; dane są przekazywane przez
-    HTTPS. Google oraz GitHub mają własne zasady i mechanizmy przekazywania danych poza EOG.
+    HTTPS. Google, Apple oraz GitHub mają własne zasady i mechanizmy przekazywania danych poza EOG.
     Nie prowadzimy reklam ani sprzedaży danych. Dane konta utrzymujemy do jego usunięcia lub ustania
     celu; techniczne kopie zapasowe do 90 dni. Żądania dotyczące dostępu, sprostowania, eksportu,
     ograniczenia, sprzeciwu lub usunięcia przyjmujemy na podany adres e-mail.</p>
@@ -186,7 +218,8 @@
     lokalizacji, kontaktów, SMS-ów ani nakładki na inne aplikacje.</p>
 
   <h2>5. Dobrowolne wsparcie</h2>
-  <p>Od wersji 1.10.57 jednorazowe wsparcie jest oferowane wyłącznie przez Google Play.
+  <h3>Android — Google Play</h3>
+  <p>Od wersji 1.10.57 jednorazowe wsparcie w aplikacji Android jest oferowane przez Google Play.
     Aktualne kwoty pokazuje sklep przed potwierdzeniem. Wsparcie można ponawiać, nie odnawia się
     automatycznie i nie daje płatnego dostępu Plus. Po rzeczywistym potwierdzonym zakupie konto
     otrzymuje gwiazdkę Donatora. Największa łączna suma potwierdzonych wpłat daje przechodnią
@@ -199,6 +232,16 @@
     oraz zapobieganiu podwójnemu naliczaniu i nadużyciom (lit. f). Nie zapisujemy danych
     karty ani rachunku bankowego. Status gwiazdek jest odświeżany po połączeniu z serwerem;
     widok offline może pokazywać ostatnio potwierdzony stan.</p>
+  <h3>iOS — Apple In-App Purchase</h3>
+  <p>W wersji iOS z udostępnionymi zakupami można przekazać twórcy jednorazowy napiwek za pomocą
+    produktów zużywalnych App Store. Kwotę w lokalnej walucie pokazuje Apple przed potwierdzeniem.
+    Napiwek jest dobrowolny, można go ponawiać i nie odnawia się automatycznie. Nie kupuje dostępu Plus,
+    kodu dostępu, gwiazdek Donatora lub Top Donatora, punktów ani miejsca w rankingu.</p>
+  <p>Serwer weryfikuje transakcję u Apple i zapisuje identyfikator transakcji oraz pierwotnej transakcji,
+    produkt, środowisko, powiązane konto, status cofnięcia i czas weryfikacji. Służy to obsłudze zakupu
+    i zapobieganiu ponownemu zaliczeniu tej samej transakcji (art. 6 ust. 1 lit. b i f RODO).
+    Nie otrzymujemy numeru karty ani danych rachunku. Wnioski o zwrot obsługuje Apple zgodnie
+    z procedurą wskazaną w sekcji subskrypcji.</p>
   <p>W starszych wersjach wsparcie odbywało się poza aplikacją w PayPal lub Suppi.
     Dla tych wpłat aplikacja nie otrzymywała potwierdzenia, nie nadawała gwiazdek ani dostępu.
     Linki do tych operatorów pozostają wyłączone w nowej wersji.
@@ -211,7 +254,7 @@
     analityki kliknięć. Nie oznacza to braku logów u operatorów połączeń internetowych
     (GitHub, PayPal, Suppi, GitHub Pages) przy odwiedzeniu ich stron.</p>
   <p>Połączenia sieciowe aplikacji używają HTTPS. Lokalną bazę i pliki chronią mechanizmy
-    dostępu Androida. Bezpieczeństwo zależy też od blokady i aktualizacji urządzenia.</p>
+    dostępu Androida lub iOS. Bezpieczeństwo zależy też od blokady i aktualizacji urządzenia.</p>
 
   <h2>7. Korespondencja i retencja</h2>
   <p>Jeśli napiszesz na podany adres e-mail, administrator otrzymuje treść wiadomości
