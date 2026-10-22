@@ -236,9 +236,18 @@
   <p>W wersji iOS z udostępnionymi zakupami można przekazać twórcy jednorazowy napiwek za pomocą
     produktów zużywalnych App Store. Kwotę w lokalnej walucie pokazuje Apple przed potwierdzeniem.
     Napiwek jest dobrowolny, można go ponawiać i nie odnawia się automatycznie. Nie kupuje dostępu Plus,
-    kodu dostępu, gwiazdek Donatora lub Top Donatora, punktów ani miejsca w rankingu.</p>
+    kodu dostępu ani punktów w rywalizacji. Potwierdzona rzeczywista wpłata daje gwiazdkę Donatora.
+    Wpłaty Apple i Google Play trafiają do wspólnej sumy wsparcia danego konta CEL-ownika, która
+    określa aktualnego posiadacza przechodniej gwiazdki Top Donatora; przy remisie pozostaje dotychczasowy lider.
+    Poprzedni lider traci gwiazdkę Top Donatora, ale zachowuje Donatora, jeśli ma ważne wpłaty.
+    Transakcje testowe nie są liczone. Zwrot lub cofnięcie, także częściowe, wyłącza daną transakcję z sumy.
+    Do porównania używamy kwot brutto w PLN. Kwota Apple pochodzi ze zweryfikowanej transakcji;
+    obce waluty Apple przeliczamy według ostatniego dostępnego kursu średniego NBP z dnia zakupu UTC
+    lub wcześniejszego, utrwalonego dla tej daty. To zasada porównania wsparcia, nie zasada rozliczeń podatkowych.
+    Przy braku kwoty lub kursu nadanie gwiazdki i uwzględnienie wpłaty czekają na ponowną weryfikację.
+    Użycie dwóch różnych kont CEL-ownika nie łączy automatycznie ich wpłat na podstawie e-maila.</p>
   <p>Serwer weryfikuje transakcję u Apple i zapisuje identyfikator transakcji oraz pierwotnej transakcji,
-    produkt, środowisko, powiązane konto, status cofnięcia i czas weryfikacji. Służy to obsłudze zakupu
+    produkt, środowisko, powiązane konto, status cofnięcia, czas weryfikacji oraz kwotę porównawczą w PLN i kurs przeliczenia. Służy to obsłudze zakupu, nadawaniu gwiazdek
     i zapobieganiu ponownemu zaliczeniu tej samej transakcji (art. 6 ust. 1 lit. b i f RODO).
     Nie otrzymujemy numeru karty ani danych rachunku. Wnioski o zwrot obsługuje Apple zgodnie
     z procedurą wskazaną w sekcji subskrypcji.</p>
