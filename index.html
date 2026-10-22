@@ -28,7 +28,7 @@
     odpowiada Michał Draba, twórca aplikacji Celownik. Kontakt w sprawach prywatności:
     <a href="mailto:michal.draba@gmail.com">michal.draba@gmail.com</a>.</p>
   <p>Celownik to dziennik treningów strzeleckich. Nie wymaga konta. Zdjęcia tarcz, wyniki
-    i ustawienia zapisuje lokalnie na urządzeniu. Nie synchronizuje automatycznie historii. Po osobnej zgodzie na wybrany trening może przesłać jego zdjęcia i oznaczenia do laboratorium twórcy. Operatorzy usług opisanych poniżej odpowiadają
+    i ustawienia zapisuje lokalnie na urządzeniu. Synchronizacja podsumowań postępów jest dobrowolną opcją pełnego dostępu; domyślnie jest wyłączona. Po osobnej zgodzie na wybrany trening może przesłać jego zdjęcia i oznaczenia do laboratorium twórcy. Operatorzy usług opisanych poniżej odpowiadają
     za przetwarzanie danych w swoich usługach zgodnie z własnymi zasadami.</p>
 
   <h2>2. Dane na urządzeniu</h2>
@@ -80,6 +80,23 @@
     <a href="https://policies.google.com/privacy">Google</a> oraz
     <a href="https://www.apple.com/legal/privacy/">Apple</a>.</p>
 
+  <h2 id="progress-sync">Dobrowolna synchronizacja postępów</h2>
+  <p>Po włączeniu w Profilu, z aktywną subskrypcją lub kodem pełnego dostępu, synchronizujemy
+    prywatne podsumowania zatwierdzonych wyników przypisane do konta Google: daty, konkurencję,
+    dystans, nazwę i kaliber broni oraz amunicji, scenariusz wyzwania, liczbę trafień, punkty
+    i liczbowe miary skupienia. Na tej podstawie urządzenia wyliczają rangę, medale i postępy.
+    Nie wysyłamy zdjęć tarcz, oznaczeń przestrzelin, ich współrzędnych ani prywatnych notatek.
+    Awatar wybrany do synchronizacji jest zmniejszany, pozbawiany EXIF/GPS i pozostaje prywatny.
+    Publikacja awatara w społeczności wymaga osobnej czynności.</p>
+  <p>Synchronizacja służy wykonaniu zamówionej usługi między urządzeniami (art. 6 ust. 1 lit. b RODO).
+    Możesz ją wyłączyć w Profilu; wyłączenie wstrzymuje przesyłanie, ale nie usuwa dotychczasowych kopii.
+    Na darmowym koncie nie wysyłamy ani nie pobieramy postępów. Po wygaśnięciu pełnego dostępu
+    zachowujemy dane lokalne i podsumowania konta; nowe wyniki oraz poprawki czekają na urządzeniu.
+    Po wznowieniu dostępu i przy włączonej synchronizacji łączymy zaległe zmiany z kontem.
+    Starsza kopia z innego urządzenia nie zastępuje nowszych lokalnych wyników. Poprawienie lub
+    usunięcie własnego wyniku może zmienić rangę i medale po ponownym przeliczeniu.
+    Usunięcie konta obejmuje także podsumowania synchronizacji; techniczne kopie zapasowe do 90 dni.</p>
+
   <h2 id="community">Zasady społeczności i rywalizacji</h2>
   <p>Społeczność jest opcjonalna. Po utworzeniu profilu serwer zapisuje wybrany pseudonim, awatar,
     ustawienia widoczności i zaproszeń, znajomości, blokady, zgłoszenia nadużyć oraz czas ostatniej
@@ -115,7 +132,7 @@
     odrębny od czasu dostępu, który zaczyna się przy pierwszej aktywacji. Kod nie tworzy subskrypcji,
     płatności ani automatycznego odnawiania. W aplikacji ma status „Pełny dostęp”. Ponowienie tego
     samego kodu na tym samym koncie nie przedłuża okresu. Nie jest możliwe przeniesienie użytego kodu
-    na inne konto. Bezpłatne wsparcie rozwoju nie jest zakupem kodu ani subskrypcji.</p>
+    na inne konto. Dobrowolne wsparcie rozwoju nie jest zakupem kodu ani subskrypcji.</p>
   <p>Google przetwarza płatność. Serwer CEL-ownika zachowuje token zakupu, identyfikator produktu,
     plan, okres, stan odnawiania i potwierdzenia oraz identyfikator konta w celu kontroli uprawnień,
     przywracania dostępu i zapobiegania nadużyciom. Nie otrzymuje numeru karty ani danych rachunku.
@@ -133,7 +150,7 @@
     <a href="mailto:michal.draba@gmail.com?subject=Usuni%C4%99cie%20konta%20CEL-ownik">michal.draba@gmail.com — poproś o usunięcie konta</a>.
     Podaj pseudonim i identyfikator konta z aplikacji, jeśli go znasz; nie wysyłaj hasła ani tokenu zakupu.
     Potwierdzimy własność konta i zakres żądania, a następnie usuniemy je co do zasady w ciągu 30 dni.</p>
-  <p>Usuwamy profil, awatar, relacje, zaproszenia, udział w pojedynkach i rankingu, sesje oraz powiązanie
+  <p>Usuwamy profil, awatar, prywatne podsumowania postępów, relacje, zaproszenia, udział w pojedynkach i rankingu, sesje oraz powiązanie
     uprawnień. Kopie zapasowe zostaną wycofane najpóźniej po 90 dniach. Niezbędne dowody transakcji
     i korespondencja mogą zostać zachowane przez okres wymagany prawem podatkowym lub do ochrony
     roszczeń; poinformujemy o konkretnym zakresie. Usunięcie konta nie anuluje płatności w Google Play
@@ -169,14 +186,24 @@
     lokalizacji, kontaktów, SMS-ów ani nakładki na inne aplikacje.</p>
 
   <h2>5. Dobrowolne wsparcie</h2>
-  <p>Wpłaty odbywają się poza Celownikiem, w PayPal
-    (<a href="https://paypal.me/MDraba">paypal.me/MDraba</a>) albo w Suppi
-    (<a href="https://suppi.pl/dramich">suppi.pl/dramich</a>). Aplikacja nie obsługuje
-    danych płatniczych, nie wstawia kwoty ani identyfikatora treningu do adresu i nie
-    dostaje potwierdzenia wpłaty. Wybrany serwis może przekazać twórcy informacje o wpłacie
-    według swoich zasad. Wsparcie nic nie odblokowuje.</p>
-  <p>Zasady operatorów:
-    <a href="https://www.paypal.com/pl/legalhub/privacy-full">PayPal</a>,
+  <p>Od wersji 1.10.57 jednorazowe wsparcie jest oferowane wyłącznie przez Google Play.
+    Aktualne kwoty pokazuje sklep przed potwierdzeniem. Wsparcie można ponawiać, nie odnawia się
+    automatycznie i nie daje płatnego dostępu Plus. Po rzeczywistym potwierdzonym zakupie konto
+    otrzymuje gwiazdkę Donatora. Największa łączna suma potwierdzonych wpłat daje przechodnią
+    gwiazdkę Top Donatora; przy remisie zachowuje ją obecny lider. Poprzedni lider traci tę gwiazdkę.
+    Zakupy testowe nie uczestniczą w nagradzaniu. Wpłata objęta zwrotem, w tym częściowym,
+    jest wyłączana z sumy wsparcia. Zasady zwrotów i reklamacji Google Play wskazano powyżej.</p>
+  <p>Serwer weryfikuje zakup w Google i przechowuje identyfikator konta, token zakupu,
+    identyfikator produktu, status testowy, stan potwierdzenia oraz kwotę w PLN i stan zwrotu.
+    Dane te służą wykonaniu usługi i przyznaniu wyróżnień (art. 6 ust. 1 lit. b RODO)
+    oraz zapobieganiu podwójnemu naliczaniu i nadużyciom (lit. f). Nie zapisujemy danych
+    karty ani rachunku bankowego. Status gwiazdek jest odświeżany po połączeniu z serwerem;
+    widok offline może pokazywać ostatnio potwierdzony stan.</p>
+  <p>W starszych wersjach wsparcie odbywało się poza aplikacją w PayPal lub Suppi.
+    Dla tych wpłat aplikacja nie otrzymywała potwierdzenia, nie nadawała gwiazdek ani dostępu.
+    Linki do tych operatorów pozostają wyłączone w nowej wersji.
+    Zasady operatorów dawnych wpłat:
+    <a href="https://www.paypal.com/pl/legalhub/privacy-full">PayPal</a> i
     <a href="https://suppi.pl/polityka_prywatnosci">Suppi</a>.</p>
 
   <h2>6. Czego aplikacja nie robi</h2>
