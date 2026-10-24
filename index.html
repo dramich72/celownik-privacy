@@ -21,7 +21,7 @@
 <body>
 <main>
   <h1>Polityka prywatności aplikacji „Celownik”</h1>
-  <p class="date">Data aktualizacji: <time datetime="2026-10-23">23 października 2026 r.</time></p>
+  <p class="date">Data aktualizacji: <time datetime="2026-10-24">24 października 2026 r.</time></p>
 
   <h2>1. Kto odpowiada za dane i jak się skontaktować</h2>
   <p>Za przetwarzanie danych otrzymanych w związku z dostępem Plus, społecznością, dobrowolnym feedbackiem, korespondencją i wsparciem
@@ -198,6 +198,19 @@
     celu; techniczne kopie zapasowe do 90 dni. Żądania dotyczące dostępu, sprostowania, eksportu,
     ograniczenia, sprzeciwu lub usunięcia przyjmujemy na podany adres e-mail.</p>
 
+  <h2 id="training-ai">Opcjonalne dopasowanie celu treningowego z AI</h2>
+  <p>W testowym module Treningów możesz osobno zgodzić się na „Dopasuj plan z AI”.
+    Funkcja wysyła przez uwierzytelnione API CEL-ownika maksymalnie trzy średnice grup,
+    rodzaj źródła pomiaru (trening, wyzwanie albo tarcza) oraz wyliczony z nich punkt odniesienia.
+    Nie wysyła zdjęć, surowych współrzędnych trafień, notatek, nazw ani identyfikatorów broni.
+    Serwer sprawdza dostęp konta i limity żądań, a ocenę wykonuje lokalny model językowy
+    na infrastrukturze administratora w Polsce, bez przekazywania tych pomiarów zewnętrznemu dostawcy LLM.</p>
+  <p>Ten moduł nie zapisuje przesłanych pomiarów ani odpowiedzi w bazie serwera i nie używa ich
+    do uczenia modelu. Wynik ogranicza się do utrzymania celu albo jego zmniejszenia o 5%;
+    nie stanowi diagnozy techniki ani porady bezpieczeństwa. Cel i sesja pozostają zapisane lokalnie.
+    Bez zgody, po błędzie albo bez internetu dostępny pozostaje plan obliczony na urządzeniu.
+    Jest to odrębna zgoda od synchronizacji postępów i wysyłki zdjęć do laboratorium.</p>
+
   <h2>3. Model rozpoznawania z internetu</h2>
   <p>Przy starcie Celownik może pobrać aktualny zaakceptowany pakiet modelu przez HTTPS
     z publicznego katalogu GitHub Releases
@@ -214,7 +227,7 @@
   <h2>4. Uprawnienia</h2>
   <p>Aparat służy wyłącznie do zdjęcia tarczy podczas treningu. Wybór z galerii pozwala
     przekazać wybrane zdjęcie. Internet jest potrzebny do opcjonalnego pobrania modelu
-    do opcjonalnego logowania u Google lub Apple, potwierdzania dostępu, społeczności oraz dobrowolnej wysyłki feedbacku i otwarcia stron wsparcia i tej polityki. Celownik nie wymaga mikrofonu,
+    do opcjonalnego logowania u Google lub Apple, potwierdzania dostępu, społeczności, opcjonalnego dopasowania celu z AI oraz dobrowolnej wysyłki feedbacku i otwarcia stron wsparcia i tej polityki. Celownik nie wymaga mikrofonu,
     lokalizacji, kontaktów, SMS-ów ani nakładki na inne aplikacje.</p>
 
   <h2>5. Dobrowolne wsparcie</h2>
