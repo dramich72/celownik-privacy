@@ -16,7 +16,7 @@
       mode: 'testing',
       autoRedirect: true,
       android: {
-        testing: 'https://play.google.com/apps/testing/pl.dramich.celownik',
+        testing: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik',
         public: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik'
       },
       ios: {
@@ -45,13 +45,22 @@
       return null;
     }
 
+    // Ten sam link „View in TestFlight”, który Apple pokazuje w publicznym zaproszeniu.
+    // Otwiera konkretną betę w zainstalowanym TestFlight zamiast strony z dwoma kafelkami.
+    function appDownloadUrl(platform, target) {
+      if (platform === 'ios' && target && target.startsWith('https://testflight.apple.com/join/')) {
+        return target.replace('https://', 'itms-beta://');
+      }
+      return target;
+    }
+
     // Uruchom przed wyrenderowaniem strony, bez ekranu wyboru i bez opóźnienia.
     (() => {
       const platform = devicePlatform(navigator);
       const manual = new URLSearchParams(location.search).get('wybor') === '1';
       const target = platform && downloadUrl(platform, DOWNLOADS);
       if (target && DOWNLOADS.autoRedirect && !manual) {
-        try { location.replace(target); } catch (_) { /* Przyciski pozostają dostępną drogą pobrania. */ }
+        try { location.replace(appDownloadUrl(platform, target)); } catch (_) { /* Przeglądarka może wymagać dotknięcia przycisku otwierającego aplikację. */ }
       }
     })();
   </script>
@@ -65,6 +74,7 @@
     .choice.recommended{border-color:#b5db85;background:#1b2d1e}.platform{font-size:14px;font-weight:650;color:#b5db85}.choice h2{font-size:25px;letter-spacing:-.025em;margin:10px 0 12px;color:#f3f6ef}
     .choice p{font-size:14px;flex:1}.choice a{display:flex;justify-content:center;align-items:center;min-height:48px;padding:12px 14px;border-radius:8px;margin-top:24px;background:#c0e293;color:#14200e;text-decoration:none;font-size:14px;font-weight:750;text-align:center}
     .choice a:hover{background:#d5edb2}.choice a:focus-visible,button:focus-visible,footer a:focus-visible{outline:3px solid #d5edb2;outline-offset:4px}
+    .choices.one-platform{grid-template-columns:1fr}.install-help{color:#c7d1c3;font-size:14px;text-underline-offset:3px;display:inline-block;margin-bottom:20px}
     .notice{padding:16px 0;border-top:1px solid #354830;border-bottom:1px solid #354830}.notice p{font-size:14px}.notice strong{color:#f3f6ef}
     button{font:inherit;font-size:14px;color:#c0e293;background:transparent;border:0;padding:8px 0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
     footer{margin-top:30px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;color:#b0beaa}footer a{color:#c7d1c3;text-underline-offset:3px}
@@ -81,8 +91,8 @@
       <section class="choice" id="android-choice" aria-labelledby="android-heading">
         <div class="platform">Android</div>
         <h2 id="android-heading">Google Play</h2>
-        <p id="android-description">Otwórz stronę testów i użyj konta Google dodanego do listy testerów.</p>
-        <a id="android-link" href="https://play.google.com/apps/testing/pl.dramich.celownik" rel="noreferrer">Dołącz do testów Androida</a>
+        <p id="android-description">Otwórz kartę CEL-ownika bezpośrednio w Google Play.</p>
+        <a id="android-link" href="https://play.google.com/store/apps/details?id=pl.dramich.celownik" rel="noreferrer">Otwórz w Google Play</a>
       </section>
       <section class="choice" id="ios-choice" aria-labelledby="ios-heading">
         <div class="platform">iPhone / iPad</div>
@@ -91,6 +101,7 @@
         <a id="ios-link" href="https://testflight.apple.com/join/B2u2NmBe" rel="noreferrer">Dołącz do TestFlight</a>
       </section>
     </div>
+    <a class="install-help" id="ios-install-link" href="https://apps.apple.com/app/testflight/id899247664" hidden>Nie masz TestFlight? Zainstaluj go z App Store.</a>
     <div class="notice">
       <p id="redirect-status" role="status" aria-live="polite">To wersje testowe aplikacji. Android wymaga konta na liście testerów; do iOS dołączysz przez TestFlight.</p>
     </div>
@@ -116,8 +127,8 @@
         const description = document.getElementById(name + '-description');
         if (urls[name]) {
           link.href = urls[name];
-          link.textContent = testing ? (name === 'android' ? 'Dołącz do testów Androida' : 'Dołącz do TestFlight') : (name === 'android' ? 'Pobierz z Google Play' : 'Pobierz z App Store');
-          description.textContent = testing ? (name === 'android' ? 'Otwórz stronę testów i użyj konta Google dodanego do listy testerów.' : 'Dołącz do testów CEL-ownika przez TestFlight na iPhonie lub iPadzie.') : 'Otwórz stronę CEL-ownika w sklepie i zainstaluj aplikację.';
+          link.textContent = testing ? (name === 'android' ? 'Otwórz w Google Play' : 'Otwórz CEL-ownik w TestFlight') : (name === 'android' ? 'Pobierz z Google Play' : 'Pobierz z App Store');
+          description.textContent = testing ? (name === 'android' ? 'Przejdź bezpośrednio do karty CEL-ownika w Google Play. Użyj konta, na którym masz dostęp do testów.' : 'Otwórz CEL-ownik w aplikacji TestFlight. Przy pierwszej instalacji potrzebny jest TestFlight.') : 'Otwórz stronę CEL-ownika w sklepie i zainstaluj aplikację.';
         } else {
           link.href = 'mailto:michal.draba@gmail.com?subject=' + encodeURIComponent('CEL-ownik — ' + (testing ? 'zaproszenie do testów ' : 'pobieranie ') + name);
           link.textContent = testing ? 'Poproś o zaproszenie' : 'Skontaktuj się z nami';
@@ -125,11 +136,20 @@
         }
       }
       status.textContent = idleMessage;
-      if (platform) document.getElementById(platform + '-choice').classList.add('recommended');
+      if (platform && !manual) {
+        document.getElementById(platform + '-choice').classList.add('recommended');
+        document.getElementById((platform === 'android' ? 'ios' : 'android') + '-choice').hidden = true;
+        document.getElementById('android-choice').parentElement.classList.add('one-platform');
+        document.getElementById('intro').textContent = platform === 'android' ? 'Otwieramy kartę CEL-ownika w Google Play.' : testing ? 'Otwieramy CEL-ownik w aplikacji TestFlight.' : 'Otwieramy CEL-ownik w App Store.';
+        if (platform === 'ios' && testing && urls.ios && urls.ios.startsWith('https://testflight.apple.com/join/')) {
+          document.getElementById('ios-link').href = appDownloadUrl('ios', urls.ios);
+          document.getElementById('ios-install-link').hidden = false;
+        }
+      }
       if (platform === 'ios' && !urls.ios && testing) status.textContent = 'Na iPhonie otwórz zaproszenie do CEL-ownika w wiadomości od TestFlight. Jeśli nie masz zaproszenia, poproś o nie powyżej.';
 
       if (platform && urls[platform] && DOWNLOADS.autoRedirect && !manual) {
-        status.textContent = 'Jeśli sklep się nie otworzył, skorzystaj z przycisku powyżej.';
+        status.textContent = platform === 'ios' && testing ? 'Jeśli TestFlight się nie otworzył, dotknij „Otwórz CEL-ownik w TestFlight”.' : 'Jeśli sklep się nie otworzył, skorzystaj z przycisku powyżej.';
       }
     })();
   </script>
