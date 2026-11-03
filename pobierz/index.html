@@ -11,7 +11,7 @@
     // STAŁY ADRES QR: https://dramich72.github.io/celownik-privacy/pobierz/
     // Zmieniaj poniższą konfigurację. Wydrukowany QR pozostaje bez zmian.
     // mode: "testing" teraz; "public" po potwierdzeniu publikacji w sklepach.
-    // ios.testing: wstaw pełny publiczny link TestFlight /join/... jeśli zostanie włączony.
+    // ios.testing: aktywny publiczny link grupy CEL-ownik — testy iPhone.
     const DOWNLOADS = {
       mode: 'testing',
       autoRedirect: true,
@@ -20,7 +20,7 @@
         public: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik'
       },
       ios: {
-        testing: null,
+        testing: 'https://testflight.apple.com/join/B2u2NmBe',
         public: 'https://apps.apple.com/app/id6825866068'
       }
     };
@@ -87,12 +87,12 @@
       <section class="choice" id="ios-choice" aria-labelledby="ios-heading">
         <div class="platform">iPhone / iPad</div>
         <h2 id="ios-heading">TestFlight</h2>
-        <p id="ios-description">Testy wymagają zaproszenia. Jeśli już je masz, otwórz wiadomość od TestFlight. Chcesz dołączyć? Napisz do nas.</p>
-        <a id="ios-link" href="mailto:michal.draba@gmail.com?subject=CEL-ownik%20%E2%80%94%20zaproszenie%20do%20test%C3%B3w%20iOS">Poproś o zaproszenie</a>
+        <p id="ios-description">Dołącz do publicznych testów CEL-ownika przez TestFlight na iPhonie lub iPadzie.</p>
+        <a id="ios-link" href="https://testflight.apple.com/join/B2u2NmBe" rel="noreferrer">Dołącz do TestFlight</a>
       </section>
     </div>
     <div class="notice">
-      <p id="redirect-status" role="status" aria-live="polite">Aplikacja jest obecnie w testach zamkniętych. Sam link nie nadaje dostępu do testów.</p>
+      <p id="redirect-status" role="status" aria-live="polite">To wersje testowe aplikacji. Android wymaga konta na liście testerów; do iOS dołączysz przez TestFlight.</p>
     </div>
     <noscript><p>Możesz skorzystać z przycisków powyżej. Automatyczny wybór sklepu wymaga JavaScript.</p></noscript>
     <footer><span>CEL-ownik / CL-AIM</span><a href="../">Prywatność i kontakt</a></footer>
@@ -104,7 +104,7 @@
       const status = document.getElementById('redirect-status');
       const urls = {android:downloadUrl('android', DOWNLOADS), ios:downloadUrl('ios', DOWNLOADS)};
       const manual = new URLSearchParams(location.search).get('wybor') === '1';
-      const idleMessage = testing ? 'Aplikacja jest obecnie w testach zamkniętych. Sam link nie nadaje dostępu do testów.' : 'Wybierz sklep odpowiedni dla swojego telefonu.';
+      const idleMessage = testing ? 'To wersje testowe aplikacji. Android wymaga konta na liście testerów; do iOS dołączysz przez TestFlight.' : 'Wybierz sklep odpowiedni dla swojego telefonu.';
 
       if (!testing) {
         document.getElementById('channel-label').textContent = 'Pobierz aplikację';
