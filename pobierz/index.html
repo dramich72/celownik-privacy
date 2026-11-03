@@ -7,49 +7,6 @@
   <meta name="referrer" content="no-referrer">
   <meta name="color-scheme" content="dark">
   <title>Pobierz CEL-ownik</title>
-  <style>
-    :root{color-scheme:dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b1510;color:#f3f6ef}
-    *{box-sizing:border-box}body{margin:0}main{width:min(100% - 40px,640px);margin:clamp(32px,8vh,88px) auto 32px}
-    .brand{font-size:20px;font-weight:750;letter-spacing:.04em;color:#b5db85}.eyebrow{font-size:12px;letter-spacing:.14em;color:#c0cabd;text-transform:uppercase;margin-top:42px}
-    h1{font-size:clamp(32px,7vw,48px);line-height:1.08;letter-spacing:-.045em;margin:14px 0 18px}p{font-size:16px;line-height:1.65;color:#c7d1c3;margin:0}
-    .intro{max-width:520px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:30px 0 22px}
-    .choice{background:#152319;border:1px solid #354830;border-radius:16px;padding:24px;display:flex;flex-direction:column;min-width:0}
-    .choice.recommended{border-color:#b5db85;background:#1b2d1e}.platform{font-size:14px;font-weight:650;color:#b5db85}.choice h2{font-size:25px;letter-spacing:-.025em;margin:10px 0 12px;color:#f3f6ef}
-    .choice p{font-size:14px;flex:1}.choice a{display:flex;justify-content:center;align-items:center;min-height:48px;padding:12px 14px;border-radius:8px;margin-top:24px;background:#c0e293;color:#14200e;text-decoration:none;font-size:14px;font-weight:750;text-align:center}
-    .choice a:hover{background:#d5edb2}.choice a:focus-visible,button:focus-visible,footer a:focus-visible{outline:3px solid #d5edb2;outline-offset:4px}
-    .notice{padding:16px 0;border-top:1px solid #354830;border-bottom:1px solid #354830}.notice p{font-size:14px}.notice strong{color:#f3f6ef}
-    button{font:inherit;font-size:14px;color:#c0e293;background:transparent;border:0;padding:8px 0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-    footer{margin-top:30px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;color:#b0beaa}footer a{color:#c7d1c3;text-underline-offset:3px}
-    [hidden]{display:none!important}@media(max-width:520px){.choices{grid-template-columns:1fr}.choice{padding:22px}.choice h2{font-size:23px}.eyebrow{margin-top:32px}}
-  </style>
-</head>
-<body>
-  <main>
-    <div class="brand">CEL-ownik <span aria-hidden="true">/</span> CL-AIM</div>
-    <div class="eyebrow" id="channel-label">Wersja testowa</div>
-    <h1>Twoje strzelanie.<br>Twoje postępy.</h1>
-    <p class="intro" id="intro">Dołącz do testów CEL-ownika. Wybierz swój telefon — tutaj zawsze znajdziesz aktualny sposób pobrania aplikacji.</p>
-    <div class="choices">
-      <section class="choice" id="android-choice" aria-labelledby="android-heading">
-        <div class="platform">Android</div>
-        <h2 id="android-heading">Google Play</h2>
-        <p id="android-description">Otwórz stronę testów i użyj konta Google dodanego do listy testerów.</p>
-        <a id="android-link" href="https://play.google.com/apps/testing/pl.dramich.celownik" rel="noreferrer">Dołącz do testów Androida</a>
-      </section>
-      <section class="choice" id="ios-choice" aria-labelledby="ios-heading">
-        <div class="platform">iPhone / iPad</div>
-        <h2 id="ios-heading">TestFlight</h2>
-        <p id="ios-description">Testy wymagają zaproszenia. Jeśli już je masz, otwórz wiadomość od TestFlight. Chcesz dołączyć? Napisz do nas.</p>
-        <a id="ios-link" href="mailto:michal.draba@gmail.com?subject=CEL-ownik%20%E2%80%94%20zaproszenie%20do%20test%C3%B3w%20iOS">Poproś o zaproszenie</a>
-      </section>
-    </div>
-    <div class="notice">
-      <p id="redirect-status" role="status" aria-live="polite">Aplikacja jest obecnie w testach zamkniętych. Sam link nie nadaje dostępu do testów.</p>
-      <button type="button" id="cancel-redirect" hidden>Zostań na stronie i wybierz ręcznie</button>
-    </div>
-    <noscript><p>Możesz skorzystać z przycisków powyżej. Automatyczny wybór sklepu wymaga JavaScript.</p></noscript>
-    <footer><span>CEL-ownik / CL-AIM</span><a href="../">Prywatność i kontakt</a></footer>
-  </main>
   <script>
     // STAŁY ADRES QR: https://dramich72.github.io/celownik-privacy/pobierz/
     // Zmieniaj poniższą konfigurację. Wydrukowany QR pozostaje bez zmian.
@@ -88,14 +45,65 @@
       return null;
     }
 
+    // Uruchom przed wyrenderowaniem strony, bez ekranu wyboru i bez opóźnienia.
+    (() => {
+      const platform = devicePlatform(navigator);
+      const manual = new URLSearchParams(location.search).get('wybor') === '1';
+      const target = platform && downloadUrl(platform, DOWNLOADS);
+      if (target && DOWNLOADS.autoRedirect && !manual) {
+        try { location.replace(target); } catch (_) { /* Przyciski pozostają dostępną drogą pobrania. */ }
+      }
+    })();
+  </script>
+  <style>
+    :root{color-scheme:dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b1510;color:#f3f6ef}
+    *{box-sizing:border-box}body{margin:0}main{width:min(100% - 40px,640px);margin:clamp(32px,8vh,88px) auto 32px}
+    .brand{font-size:20px;font-weight:750;letter-spacing:.04em;color:#b5db85}.eyebrow{font-size:12px;letter-spacing:.14em;color:#c0cabd;text-transform:uppercase;margin-top:42px}
+    h1{font-size:clamp(32px,7vw,48px);line-height:1.08;letter-spacing:-.045em;margin:14px 0 18px}p{font-size:16px;line-height:1.65;color:#c7d1c3;margin:0}
+    .intro{max-width:520px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:30px 0 22px}
+    .choice{background:#152319;border:1px solid #354830;border-radius:16px;padding:24px;display:flex;flex-direction:column;min-width:0}
+    .choice.recommended{border-color:#b5db85;background:#1b2d1e}.platform{font-size:14px;font-weight:650;color:#b5db85}.choice h2{font-size:25px;letter-spacing:-.025em;margin:10px 0 12px;color:#f3f6ef}
+    .choice p{font-size:14px;flex:1}.choice a{display:flex;justify-content:center;align-items:center;min-height:48px;padding:12px 14px;border-radius:8px;margin-top:24px;background:#c0e293;color:#14200e;text-decoration:none;font-size:14px;font-weight:750;text-align:center}
+    .choice a:hover{background:#d5edb2}.choice a:focus-visible,button:focus-visible,footer a:focus-visible{outline:3px solid #d5edb2;outline-offset:4px}
+    .notice{padding:16px 0;border-top:1px solid #354830;border-bottom:1px solid #354830}.notice p{font-size:14px}.notice strong{color:#f3f6ef}
+    button{font:inherit;font-size:14px;color:#c0e293;background:transparent;border:0;padding:8px 0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+    footer{margin-top:30px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12px;color:#b0beaa}footer a{color:#c7d1c3;text-underline-offset:3px}
+    [hidden]{display:none!important}@media(max-width:520px){.choices{grid-template-columns:1fr}.choice{padding:22px}.choice h2{font-size:23px}.eyebrow{margin-top:32px}}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">CEL-ownik <span aria-hidden="true">/</span> CL-AIM</div>
+    <div class="eyebrow" id="channel-label">Wersja testowa</div>
+    <h1>Twoje strzelanie.<br>Twoje postępy.</h1>
+    <p class="intro" id="intro">Dołącz do testów CEL-ownika. Wybierz swój telefon — tutaj zawsze znajdziesz aktualny sposób pobrania aplikacji.</p>
+    <div class="choices">
+      <section class="choice" id="android-choice" aria-labelledby="android-heading">
+        <div class="platform">Android</div>
+        <h2 id="android-heading">Google Play</h2>
+        <p id="android-description">Otwórz stronę testów i użyj konta Google dodanego do listy testerów.</p>
+        <a id="android-link" href="https://play.google.com/apps/testing/pl.dramich.celownik" rel="noreferrer">Dołącz do testów Androida</a>
+      </section>
+      <section class="choice" id="ios-choice" aria-labelledby="ios-heading">
+        <div class="platform">iPhone / iPad</div>
+        <h2 id="ios-heading">TestFlight</h2>
+        <p id="ios-description">Testy wymagają zaproszenia. Jeśli już je masz, otwórz wiadomość od TestFlight. Chcesz dołączyć? Napisz do nas.</p>
+        <a id="ios-link" href="mailto:michal.draba@gmail.com?subject=CEL-ownik%20%E2%80%94%20zaproszenie%20do%20test%C3%B3w%20iOS">Poproś o zaproszenie</a>
+      </section>
+    </div>
+    <div class="notice">
+      <p id="redirect-status" role="status" aria-live="polite">Aplikacja jest obecnie w testach zamkniętych. Sam link nie nadaje dostępu do testów.</p>
+    </div>
+    <noscript><p>Możesz skorzystać z przycisków powyżej. Automatyczny wybór sklepu wymaga JavaScript.</p></noscript>
+    <footer><span>CEL-ownik / CL-AIM</span><a href="../">Prywatność i kontakt</a></footer>
+  </main>
+  <script>
     (() => {
       const platform = devicePlatform(navigator);
       const testing = DOWNLOADS.mode === 'testing';
       const status = document.getElementById('redirect-status');
-      const cancel = document.getElementById('cancel-redirect');
       const urls = {android:downloadUrl('android', DOWNLOADS), ios:downloadUrl('ios', DOWNLOADS)};
       const manual = new URLSearchParams(location.search).get('wybor') === '1';
-      let timer;
       const idleMessage = testing ? 'Aplikacja jest obecnie w testach zamkniętych. Sam link nie nadaje dostępu do testów.' : 'Wybierz sklep odpowiedni dla swojego telefonu.';
 
       if (!testing) {
@@ -115,26 +123,14 @@
           link.textContent = testing ? 'Poproś o zaproszenie' : 'Skontaktuj się z nami';
           if (!(testing && name === 'ios')) description.textContent = 'Napisz do nas, aby otrzymać informacje o pobraniu aplikacji.';
         }
-        link.addEventListener('click', () => { clearTimeout(timer); cancel.hidden = true; });
       }
       status.textContent = idleMessage;
       if (platform) document.getElementById(platform + '-choice').classList.add('recommended');
       if (platform === 'ios' && !urls.ios && testing) status.textContent = 'Na iPhonie otwórz zaproszenie do CEL-ownika w wiadomości od TestFlight. Jeśli nie masz zaproszenia, poproś o nie powyżej.';
 
       if (platform && urls[platform] && DOWNLOADS.autoRedirect && !manual) {
-        status.textContent = testing ? 'Za chwilę otworzymy ' + (platform === 'android' ? 'stronę testów Google Play. Użyj konta zaproszonego do testów.' : 'zaproszenie do TestFlight.') : 'Za chwilę otworzymy ' + (platform === 'android' ? 'Google Play.' : 'App Store.');
-        cancel.hidden = false;
-        timer = setTimeout(() => {
-          cancel.hidden = true;
-          status.textContent = 'Jeśli sklep się nie otworzył, skorzystaj z przycisku powyżej.';
-          location.replace(urls[platform]);
-        }, 2500);
+        status.textContent = 'Jeśli sklep się nie otworzył, skorzystaj z przycisku powyżej.';
       }
-      cancel.addEventListener('click', () => {
-        clearTimeout(timer);
-        cancel.hidden = true;
-        status.textContent = idleMessage;
-      });
     })();
   </script>
 </body>
