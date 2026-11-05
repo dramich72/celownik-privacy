@@ -17,13 +17,16 @@
       autoRedirect: true,
       android: {
         testing: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik',
-        public: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik'
+        public: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik',
+        group: 'https://groups.google.com/g/celownik-testerzy-android',
+        optIn: 'https://play.google.com/apps/testing/pl.dramich.celownik'
       },
       ios: {
         testing: 'https://testflight.apple.com/join/B2u2NmBe',
         public: 'https://apps.apple.com/app/id6825866068'
       }
     };
+    const ANDROID_STORE_PREFERENCE = 'celownik.android.open-store';
 
     function devicePlatform(device) {
       const ua = device.userAgent || '';
@@ -54,12 +57,19 @@
       return target;
     }
 
-    // Uruchom przed wyrenderowaniem strony, bez ekranu wyboru i bez opóźnienia.
+    function shouldRedirect(platform, manual) {
+      if (!DOWNLOADS.autoRedirect || manual) return false;
+      if (platform !== 'android' || DOWNLOADS.mode !== 'testing' || !DOWNLOADS.android.group) return true;
+      try { return localStorage.getItem(ANDROID_STORE_PREFERENCE) === 'yes'; }
+      catch (_) { return false; }
+    }
+
+    // Play nie udostępnia stronie statusu zapisu testera. Zapamiętujemy wyłącznie wybór użytkownika.
     (() => {
       const platform = devicePlatform(navigator);
       const manual = new URLSearchParams(location.search).get('wybor') === '1';
       const target = platform && downloadUrl(platform, DOWNLOADS);
-      if (target && DOWNLOADS.autoRedirect && !manual) {
+      if (target && shouldRedirect(platform, manual)) {
         try { location.replace(appDownloadUrl(platform, target)); } catch (_) { /* Przeglądarka może wymagać dotknięcia przycisku otwierającego aplikację. */ }
       }
     })();
@@ -74,6 +84,10 @@
     .choice.recommended{border-color:#b5db85;background:#1b2d1e}.platform{font-size:14px;font-weight:650;color:#b5db85}.choice h2{font-size:25px;letter-spacing:-.025em;margin:10px 0 12px;color:#f3f6ef}
     .choice p{font-size:14px;flex:1}.choice a{display:flex;justify-content:center;align-items:center;min-height:48px;padding:12px 14px;border-radius:8px;margin-top:24px;background:#c0e293;color:#14200e;text-decoration:none;font-size:14px;font-weight:750;text-align:center}
     .choice a:hover{background:#d5edb2}.choice a:focus-visible,button:focus-visible,footer a:focus-visible{outline:3px solid #d5edb2;outline-offset:4px}
+    .remember-store{display:flex;align-items:baseline;gap:8px;margin-top:12px;font-size:14px;color:#c7d1c3}
+    .android-enrollment{border-top:1px solid #354830;margin-top:22px;padding-top:16px}
+    .android-enrollment h3{font-size:16px;margin:0 0 8px}
+    .android-enrollment a{margin-top:12px}
     .choices.one-platform{grid-template-columns:1fr}.install-help{color:#c7d1c3;font-size:14px;text-underline-offset:3px;display:inline-block;margin-bottom:20px}
     .notice{padding:16px 0;border-top:1px solid #354830;border-bottom:1px solid #354830}.notice p{font-size:14px}.notice strong{color:#f3f6ef}
     button{font:inherit;font-size:14px;color:#c0e293;background:transparent;border:0;padding:8px 0;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
@@ -85,7 +99,7 @@
   <main>
     <div class="brand">CEL-ownik <span aria-hidden="true">/</span> CL-AIM</div>
     <div class="eyebrow" id="channel-label">Wersja testowa</div>
-    <h1>Twoje strzelanie.<br>Twoje postępy.</h1>
+    <h1><span id="headline-first">Twoje strzelanie.</span><br><span id="headline-second">Twoje postępy.</span></h1>
     <p class="intro" id="intro">Dołącz do testów CEL-ownika. Wybierz swój telefon — tutaj zawsze znajdziesz aktualny sposób pobrania aplikacji.</p>
     <div class="choices">
       <section class="choice" id="android-choice" aria-labelledby="android-heading">
@@ -93,6 +107,15 @@
         <h2 id="android-heading">Google Play</h2>
         <p id="android-description">Otwórz kartę CEL-ownika bezpośrednio w Google Play.</p>
         <a id="android-link" href="https://play.google.com/store/apps/details?id=pl.dramich.celownik" rel="noreferrer">Otwórz w Google Play</a>
+        <label class="remember-store" id="android-remember-label" hidden>
+          <input type="checkbox" id="android-remember"> <span id="android-remember-copy">Następnym razem otwórz sklep od razu</span>
+        </label>
+        <section class="android-enrollment" id="android-enrollment" aria-labelledby="android-enrollment-heading" hidden>
+          <h3 id="android-enrollment-heading">Pierwszy raz? Zapisz się do testów</h3>
+          <p id="android-enrollment-copy">W obu krokach użyj tego samego konta Google co w Sklepie Play.</p>
+          <a id="android-group" target="_blank" rel="noopener noreferrer">1. Dołącz do grupy testerów</a>
+          <a id="android-opt-in" target="_blank" rel="noopener noreferrer">2. Dołącz do testu w Google Play</a>
+        </section>
       </section>
       <section class="choice" id="ios-choice" aria-labelledby="ios-heading">
         <div class="platform">iPhone / iPad</div>
@@ -106,7 +129,7 @@
       <p id="redirect-status" role="status" aria-live="polite">To wersje testowe aplikacji. Android wymaga konta na liście testerów; do iOS dołączysz przez TestFlight.</p>
     </div>
     <noscript><p>Możesz skorzystać z przycisków powyżej. Automatyczny wybór sklepu wymaga JavaScript.</p></noscript>
-    <footer><span>CEL-ownik / CL-AIM</span><a href="../">Prywatność i kontakt</a></footer>
+    <footer><span>CEL-ownik / CL-AIM</span><a id="privacy-link" href="../">Prywatność i kontakt</a></footer>
   </main>
   <script>
     (() => {
@@ -115,11 +138,36 @@
       const status = document.getElementById('redirect-status');
       const urls = {android:downloadUrl('android', DOWNLOADS), ios:downloadUrl('ios', DOWNLOADS)};
       const manual = new URLSearchParams(location.search).get('wybor') === '1';
-      const idleMessage = testing ? 'To wersje testowe aplikacji. Android wymaga konta na liście testerów; do iOS dołączysz przez TestFlight.' : 'Wybierz sklep odpowiedni dla swojego telefonu.';
+      const enrollmentEnabled = testing && Boolean(DOWNLOADS.android.group);
+      const english = /^en(?:-|$)/i.test(navigator.language || '');
+      const copy = (pl, en) => english ? en : pl;
+      if (english) {
+        document.documentElement.lang = 'en';
+        document.title = 'Download CL-AIM';
+        for (const [id, value] of Object.entries({
+          'channel-label': 'Beta version',
+          'headline-first': 'Your shooting.',
+          'headline-second': 'Your progress.',
+          intro: 'Join the CL-AIM beta. Choose your phone to get started.',
+          'android-remember-copy': 'Open Google Play directly next time',
+          'android-enrollment-heading': 'New to the beta? Sign up',
+          'android-enrollment-copy': 'Use the same Google Account for both steps and in the Play Store.',
+          'android-group': '1. Join the testers group',
+          'android-opt-in': '2. Join the beta on Google Play',
+          'ios-install-link': 'Need TestFlight? Install it from the App Store.',
+          'privacy-link': 'Privacy and contact'
+        })) document.getElementById(id).textContent = value;
+      }
+      let idleMessage = copy('Wybierz sklep odpowiedni dla swojego telefonu.', 'Choose the store for your phone.');
+      if (testing) {
+        idleMessage = enrollmentEnabled
+          ? copy('Wybierz platformę i dołącz do testów CEL-ownika.', 'Choose your platform to join the CL-AIM beta.')
+          : copy('Android wymaga konta na liście testerów. Na iPhonie potrzebujesz TestFlight.', 'Android requires a tester account. On iPhone, you need TestFlight.');
+      }
 
       if (!testing) {
-        document.getElementById('channel-label').textContent = 'Pobierz aplikację';
-        document.getElementById('intro').textContent = 'Pobierz CEL-ownik na swój telefon. Tutaj zawsze znajdziesz aktualne adresy aplikacji.';
+        document.getElementById('channel-label').textContent = copy('Pobierz aplikację', 'Download the app');
+        document.getElementById('intro').textContent = copy('Pobierz CEL-ownik na swój telefon. Tutaj zawsze znajdziesz aktualne adresy aplikacji.', 'Download CL-AIM for your phone.');
         document.getElementById('ios-heading').textContent = 'App Store';
       }
       for (const name of ['android', 'ios']) {
@@ -127,20 +175,45 @@
         const description = document.getElementById(name + '-description');
         if (urls[name]) {
           link.href = urls[name];
-          link.textContent = testing ? (name === 'android' ? 'Otwórz w Google Play' : 'Otwórz CEL-ownik w TestFlight') : (name === 'android' ? 'Pobierz z Google Play' : 'Pobierz z App Store');
-          description.textContent = testing ? (name === 'android' ? 'Przejdź bezpośrednio do karty CEL-ownika w Google Play. Użyj konta, na którym masz dostęp do testów.' : 'Otwórz CEL-ownik w aplikacji TestFlight. Przy pierwszej instalacji potrzebny jest TestFlight.') : 'Otwórz stronę CEL-ownika w sklepie i zainstaluj aplikację.';
+          link.textContent = testing
+            ? name === 'android' ? copy('Otwórz w Google Play', 'Open Google Play') : copy('Otwórz CEL-ownik w TestFlight', 'Open CL-AIM in TestFlight')
+            : name === 'android' ? copy('Pobierz z Google Play', 'Get it on Google Play') : copy('Pobierz z App Store', 'Download on the App Store');
+          description.textContent = testing
+            ? name === 'android' ? copy('Otwórz kartę aplikacji w Google Play na koncie testera.', 'Open the Google Play listing using your tester account.') : copy('Otwórz CEL-ownik w aplikacji TestFlight. Przy pierwszej instalacji potrzebny jest TestFlight.', 'Install TestFlight to join the CL-AIM beta.')
+            : copy('Otwórz stronę CEL-ownika w sklepie i zainstaluj aplikację.', 'Open the store listing and install CL-AIM.');
         } else {
           link.href = 'mailto:michal.draba@gmail.com?subject=' + encodeURIComponent('CEL-ownik — ' + (testing ? 'zaproszenie do testów ' : 'pobieranie ') + name);
           link.textContent = testing ? 'Poproś o zaproszenie' : 'Skontaktuj się z nami';
           if (!(testing && name === 'ios')) description.textContent = 'Napisz do nas, aby otrzymać informacje o pobraniu aplikacji.';
         }
       }
+      if (enrollmentEnabled) {
+        const remember = document.getElementById('android-remember');
+        document.getElementById('android-remember-label').hidden = false;
+        document.getElementById('android-enrollment').hidden = false;
+        document.getElementById('android-group').href = DOWNLOADS.android.group;
+        document.getElementById('android-opt-in').href = DOWNLOADS.android.optIn;
+        document.getElementById('android-description').textContent = copy('Masz już dostęp do testów? Otwórz kartę aplikacji w sklepie.', 'Already in the beta? Open the app listing in Google Play.');
+        try { remember.checked = localStorage.getItem(ANDROID_STORE_PREFERENCE) === 'yes'; } catch (_) {}
+        remember.addEventListener('change', () => {
+          try {
+            if (remember.checked) localStorage.setItem(ANDROID_STORE_PREFERENCE, 'yes');
+            else localStorage.removeItem(ANDROID_STORE_PREFERENCE);
+          } catch (_) {}
+        });
+      }
       status.textContent = idleMessage;
       if (platform && !manual) {
         document.getElementById(platform + '-choice').classList.add('recommended');
         document.getElementById((platform === 'android' ? 'ios' : 'android') + '-choice').hidden = true;
         document.getElementById('android-choice').parentElement.classList.add('one-platform');
-        document.getElementById('intro').textContent = platform === 'android' ? 'Otwieramy kartę CEL-ownika w Google Play.' : testing ? 'Otwieramy CEL-ownik w aplikacji TestFlight.' : 'Otwieramy CEL-ownik w App Store.';
+        document.getElementById('intro').textContent = platform === 'android'
+          ? copy('Otwieramy kartę CEL-ownika w Google Play.', 'Opening CL-AIM on Google Play.')
+          : testing ? copy('Otwieramy CEL-ownik w aplikacji TestFlight.', 'Opening CL-AIM in TestFlight.') : copy('Otwieramy CEL-ownik w App Store.', 'Opening CL-AIM on the App Store.');
+        if (platform === 'android' && enrollmentEnabled && !shouldRedirect(platform, manual)) {
+          document.getElementById('intro').textContent = copy('Dołącz do testów na Androidzie lub otwórz CEL-ownik w Google Play.', 'Join the Android beta or open CL-AIM on Google Play.');
+          status.textContent = copy('Po zapisaniu się do testu możesz zainstalować aplikację ze Sklepu Play.', 'After joining the beta, you can install the app from the Play Store.');
+        }
         if (platform === 'ios' && testing && urls.ios && urls.ios.startsWith('https://testflight.apple.com/join/')) {
           document.getElementById('ios-link').href = appDownloadUrl('ios', urls.ios);
           document.getElementById('ios-install-link').hidden = false;
@@ -148,8 +221,10 @@
       }
       if (platform === 'ios' && !urls.ios && testing) status.textContent = 'Na iPhonie otwórz zaproszenie do CEL-ownika w wiadomości od TestFlight. Jeśli nie masz zaproszenia, poproś o nie powyżej.';
 
-      if (platform && urls[platform] && DOWNLOADS.autoRedirect && !manual) {
-        status.textContent = platform === 'ios' && testing ? 'Jeśli TestFlight się nie otworzył, dotknij „Otwórz CEL-ownik w TestFlight”.' : 'Jeśli sklep się nie otworzył, skorzystaj z przycisku powyżej.';
+      if (platform && urls[platform] && shouldRedirect(platform, manual)) {
+        status.textContent = platform === 'ios' && testing
+          ? copy('Jeśli TestFlight się nie otworzył, dotknij „Otwórz CEL-ownik w TestFlight”.', 'If TestFlight did not open, tap the button above.')
+          : copy('Jeśli sklep się nie otworzył, skorzystaj z przycisku powyżej.', 'If the store did not open, tap the button above.');
       }
     })();
   </script>
