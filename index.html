@@ -278,12 +278,12 @@
 
   <h3 id="online-statystyki">Statystyka aktywnych aplikacji</h3>
   <p>Od wersji 1.10.92, gdy aplikacja jest na pierwszym planie i ma połączenie z internetem,
-    może przesyłać do serwera CEL-ownika sygnał pomagający oszacować liczbę aktywnych aplikacji.
+    może przesyłać do serwera CEL-ownika sygnał pomagający oszacować liczbę aktywnych aplikacji. Jest wysyłany przy uruchomieniu i powrocie na pierwszy plan oraz co dwie minuty podczas korzystania z aplikacji.
     Sygnał zawiera losowy identyfikator bieżącego uruchomienia, system (Android albo iOS),
     wersję aplikacji i numer kompilacji. Identyfikator pozostaje w pamięci aplikacji i jest
     tworzony na nowo po jej ponownym uruchomieniu. Nie zawiera zdjęć, wyników, danych broni
     ani lokalizacji i nie jest łączony z kontem w liczniku.</p>
-  <p>Serwer zapisuje skrót identyfikatora i czas ostatniego sygnału. Po dwóch minutach bez
+  <p>Serwer zapisuje skrót identyfikatora i czas ostatniego sygnału. Po pięciu minutach bez
     sygnału sesja nie jest liczona jako aktywna; jej wpis jest usuwany przy kolejnym sygnale.
     Serwer i infrastruktura sieciowa otrzymują również dane techniczne połączenia, w tym adres IP.
     Brak połączenia nie blokuje pracy lokalnej aplikacji.</p>
