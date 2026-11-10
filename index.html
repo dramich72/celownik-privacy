@@ -276,10 +276,22 @@
   <p>Wagi modelu pochodzą z YOLOv8n (Ultralytics) i są udostępniane na licencji AGPL-3.0.
     Analiza jest pomocnicza i eksperymentalna — przed zapisem wyniku sprawdź trafienia.</p>
 
+  <h3 id="online-statystyki">Statystyka aktywnych aplikacji</h3>
+  <p>Od wersji 1.10.92, gdy aplikacja jest na pierwszym planie i ma połączenie z internetem,
+    może przesyłać do serwera CEL-ownika sygnał pomagający oszacować liczbę aktywnych aplikacji.
+    Sygnał zawiera losowy identyfikator bieżącego uruchomienia, system (Android albo iOS),
+    wersję aplikacji i numer kompilacji. Identyfikator pozostaje w pamięci aplikacji i jest
+    tworzony na nowo po jej ponownym uruchomieniu. Nie zawiera zdjęć, wyników, danych broni
+    ani lokalizacji i nie jest łączony z kontem w liczniku.</p>
+  <p>Serwer zapisuje skrót identyfikatora i czas ostatniego sygnału. Po dwóch minutach bez
+    sygnału sesja nie jest liczona jako aktywna; jej wpis jest usuwany przy kolejnym sygnale.
+    Serwer i infrastruktura sieciowa otrzymują również dane techniczne połączenia, w tym adres IP.
+    Brak połączenia nie blokuje pracy lokalnej aplikacji.</p>
+
   <h2>4. Uprawnienia</h2>
   <p>Aparat służy wyłącznie do zdjęcia tarczy podczas treningu. Wybór z galerii pozwala
     przekazać wybrane zdjęcie. Internet jest potrzebny do opcjonalnego pobrania modelu
-    do opcjonalnego logowania u Google lub Apple, potwierdzania dostępu, społeczności, opcjonalnego dopasowania celu z AI oraz dobrowolnej wysyłki feedbacku i otwarcia stron wsparcia i tej polityki. Celownik nie wymaga mikrofonu,
+    do statystyki aktywności, opcjonalnego logowania u Google lub Apple, potwierdzania dostępu, społeczności, opcjonalnego dopasowania celu z AI oraz dobrowolnej wysyłki feedbacku i otwarcia stron wsparcia i tej polityki. Celownik nie wymaga mikrofonu,
     lokalizacji, kontaktów, SMS-ów ani nakładki na inne aplikacje.</p>
 
   <h2>5. Dobrowolne wsparcie</h2>
