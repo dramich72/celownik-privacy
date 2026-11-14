@@ -10,18 +10,21 @@
   <script>
     // STAŁY ADRES QR: https://dramich72.github.io/celownik-privacy/pobierz/
     // Zmieniaj poniższą konfigurację. Wydrukowany QR pozostaje bez zmian.
-    // mode: "testing" teraz; "public" po potwierdzeniu publikacji w sklepach.
+    // Każda platforma przechodzi na "public" dopiero po sprawdzeniu publicznej karty.
+    // Apple pozostaje w TestFlight do potwierdzenia dostępności w UE.
     // ios.testing: aktywny publiczny link grupy CEL-ownik — testy iPhone.
     const DOWNLOADS = {
       mode: 'testing',
       autoRedirect: true,
       android: {
+        mode: 'testing',
         testing: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik',
         public: 'https://play.google.com/store/apps/details?id=pl.dramich.celownik',
         group: 'https://groups.google.com/g/celownik-testerzy-android',
         optIn: 'https://play.google.com/apps/testing/pl.dramich.celownik'
       },
       ios: {
+        mode: 'testing',
         testing: 'https://testflight.apple.com/join/B2u2NmBe',
         public: 'https://apps.apple.com/app/id6825866068'
       }
@@ -36,8 +39,12 @@
       return null;
     }
 
+    function channelMode(platform, configuration = DOWNLOADS) {
+      return configuration[platform]?.mode || configuration.mode;
+    }
+
     function downloadUrl(platform, configuration) {
-      const candidate = configuration[platform]?.[configuration.mode];
+      const candidate = configuration[platform]?.[channelMode(platform, configuration)];
       if (!candidate) return null;
       try {
         const url = new URL(candidate);
@@ -59,7 +66,7 @@
 
     function shouldRedirect(platform, manual) {
       if (!DOWNLOADS.autoRedirect || manual) return false;
-      if (platform !== 'android' || DOWNLOADS.mode !== 'testing' || !DOWNLOADS.android.group) return true;
+      if (platform !== 'android' || channelMode(platform) !== 'testing' || !DOWNLOADS.android.group) return true;
       try { return localStorage.getItem(ANDROID_STORE_PREFERENCE) === 'yes'; }
       catch (_) { return false; }
     }
@@ -134,11 +141,13 @@
   <script>
     (() => {
       const platform = devicePlatform(navigator);
-      const testing = DOWNLOADS.mode === 'testing';
+      const androidTesting = channelMode('android') === 'testing';
+      const iosTesting = channelMode('ios') === 'testing';
+      const testing = platform ? channelMode(platform) === 'testing' : androidTesting && iosTesting;
       const status = document.getElementById('redirect-status');
       const urls = {android:downloadUrl('android', DOWNLOADS), ios:downloadUrl('ios', DOWNLOADS)};
       const manual = new URLSearchParams(location.search).get('wybor') === '1';
-      const enrollmentEnabled = testing && Boolean(DOWNLOADS.android.group);
+      const enrollmentEnabled = androidTesting && Boolean(DOWNLOADS.android.group);
       const english = /^en(?:-|$)/i.test(navigator.language || '');
       const copy = (pl, en) => english ? en : pl;
       if (english) {
@@ -168,9 +177,10 @@
       if (!testing) {
         document.getElementById('channel-label').textContent = copy('Pobierz aplikację', 'Download the app');
         document.getElementById('intro').textContent = copy('Pobierz CEL-ownik na swój telefon. Tutaj zawsze znajdziesz aktualne adresy aplikacji.', 'Download CL-AIM for your phone.');
-        document.getElementById('ios-heading').textContent = 'App Store';
       }
+      document.getElementById('ios-heading').textContent = iosTesting ? 'TestFlight' : 'App Store';
       for (const name of ['android', 'ios']) {
+        const testing = channelMode(name) === 'testing';
         const link = document.getElementById(name + '-link');
         const description = document.getElementById(name + '-description');
         if (urls[name]) {
