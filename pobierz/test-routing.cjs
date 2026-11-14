@@ -29,8 +29,8 @@ for (const language of ['pl-PL', 'en-US']) {
           const {elements: e, redirects} = render(android, ios, ua, manual, language);
           assert.equal(e.get('android-link').href, play);
           assert.equal(e.get('ios-heading').textContent, ios === 'testing' ? 'TestFlight' : 'App Store');
-          assert.equal(e.get('android-enrollment').hidden, android !== 'testing');
-          if (ua === 'Android' && android === 'public' && !manual) assert.deepEqual(redirects, [play]);
+          assert.equal(e.has('android-enrollment'), false);
+          if (ua === 'Android' && !manual) assert.deepEqual(redirects, [play]);
           else if (['iPhone', 'touch iPad'].includes(ua) && !manual) assert.deepEqual(redirects, [ios === 'testing' ? beta : appStore]);
           else assert.deepEqual(redirects, []);
           assert.equal(e.get('ios-link').href, ios === 'public' ? appStore : ['iPhone', 'touch iPad'].includes(ua) && !manual ? beta : 'https://testflight.apple.com/join/B2u2NmBe');
@@ -42,6 +42,8 @@ for (const language of ['pl-PL', 'en-US']) {
     }
   }
 }
+assert.ok(!html.includes('groups.google.com'));
+assert.ok(!html.includes('play.google.com/apps/testing/'));
 const {context} = render('testing', 'testing', 'desktop');
 assert.equal(vm.runInContext("downloadUrl('ios', {mode:'public',ios:{public:'javascript:alert(1)'}})",context),null);
 assert.equal(vm.runInContext("downloadUrl('android', {mode:'public',android:{public:'https://example.com/app'}})",context),null);
